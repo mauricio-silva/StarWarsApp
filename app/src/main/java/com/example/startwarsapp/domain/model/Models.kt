@@ -1,4 +1,4 @@
-package com.example.startwarsapp.domain
+package com.example.startwarsapp.domain.model
 
 data class Character(
     val id: Int,

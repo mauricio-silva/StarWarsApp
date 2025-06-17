@@ -3,9 +3,9 @@ package com.example.startwarsapp.data.mapper
 import com.example.startwarsapp.core.Constants
 import com.example.startwarsapp.data.dto.CharacterDto
 import com.example.startwarsapp.data.dto.PlanetDto
-import com.example.startwarsapp.domain.Character
-import com.example.startwarsapp.domain.CharacterDetails
-import com.example.startwarsapp.domain.Planet
+import com.example.startwarsapp.domain.model.Character
+import com.example.startwarsapp.domain.model.CharacterDetails
+import com.example.startwarsapp.domain.model.Planet
 
 fun extractId(url: String): Int = url.trimEnd('/').split("/").last().toInt()
 
