@@ -33,8 +33,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            buildConfigField("String", "BASE_URL", "\"https://swapi.dev/api/\"")
-            buildConfigField("String", "BASE_IMAGE_URL", "\"https://starwars-visualguide.com/assets/img/\"",)
         }
     }
 
@@ -60,6 +58,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.converter)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

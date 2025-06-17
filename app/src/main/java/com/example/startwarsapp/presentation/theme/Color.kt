@@ -1,4 +1,4 @@
-package com.example.startwarsapp.ui.theme
+package com.example.startwarsapp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

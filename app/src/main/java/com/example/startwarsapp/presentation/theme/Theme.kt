@@ -1,4 +1,4 @@
-package com.example.startwarsapp.ui.theme
+package com.example.startwarsapp.presentation.theme
 
 import android.app.Activity
 import android.os.Build
