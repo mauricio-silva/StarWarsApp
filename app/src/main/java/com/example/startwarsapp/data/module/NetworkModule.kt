@@ -1,6 +1,7 @@
 package com.example.startwarsapp.data.module
 
 import com.example.startwarsapp.core.Constants
+import com.example.startwarsapp.data.api.StarWarsApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -36,4 +37,8 @@ object NetworkModule {
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
+
+    @Provides
+    fun provideStarWarsApi(retrofit: Retrofit): StarWarsApi =
+        retrofit.create(StarWarsApi::class.java)
 }

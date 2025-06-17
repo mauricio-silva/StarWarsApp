@@ -1,4 +1,4 @@
-package com.example.startwarsapp.data
+package com.example.startwarsapp.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

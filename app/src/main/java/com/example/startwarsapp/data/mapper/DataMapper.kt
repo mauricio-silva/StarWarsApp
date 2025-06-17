@@ -1,6 +1,8 @@
-package com.example.startwarsapp.data
+package com.example.startwarsapp.data.mapper
 
 import com.example.startwarsapp.core.Constants
+import com.example.startwarsapp.data.dto.CharacterDto
+import com.example.startwarsapp.data.dto.PlanetDto
 import com.example.startwarsapp.domain.Character
 import com.example.startwarsapp.domain.CharacterDetails
 import com.example.startwarsapp.domain.Planet
