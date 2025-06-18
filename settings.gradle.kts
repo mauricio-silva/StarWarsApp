@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "StartWarsApp"
+rootProject.name = "TMBDApp"
 include(":app")
  

@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.startwarsapp"
+    namespace = "com.mdev.tmdbapp"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
