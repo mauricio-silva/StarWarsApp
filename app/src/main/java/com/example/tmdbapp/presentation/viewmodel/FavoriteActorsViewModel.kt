@@ -46,6 +46,8 @@ class FavoriteActorsViewModel @Inject constructor(
         } else {
             allFavorites.filter { it.name.lowercase().contains(query) }
         }
-        _favoritesUiState.value = filtered
+
+        val sortedByActorsName = filtered.sortedBy { actor -> actor.name }
+        _favoritesUiState.value = sortedByActorsName
     }
 }

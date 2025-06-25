@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
     surface = SurfaceColor,
     onSurface = Color(0xFF1F1F1F),
     error = ErrorColor,
-    onError = Color.White
+    onError = Color.White,
 )
 
 

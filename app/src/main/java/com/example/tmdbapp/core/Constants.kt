@@ -6,5 +6,4 @@ object Constants {
     internal const val BASE_URL = "https://api.themoviedb.org/3/"
     internal const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
     internal const val PAGE_SIZE = 15
-    internal const val TIMEOUT_MS = 5_000L
 }

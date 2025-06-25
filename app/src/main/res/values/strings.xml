@@ -7,6 +7,8 @@
     <string name="not_found_error_title">Something went wrong</string>
     <string name="not_found_error_message">Failed to load actors.</string>
     <string name="screen_actor_detail_title">Actor Details</string>
+    <string name="screen_favorites_title">Favorites</string>
+    <string name="screen_home_title">Actors</string>
     <string name="search_label">Search</string>
     <string name="name_label">Name</string>
     <string name="original_name_label">Original Name</string>

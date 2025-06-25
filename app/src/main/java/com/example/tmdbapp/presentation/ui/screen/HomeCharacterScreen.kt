@@ -63,11 +63,8 @@ fun HomeScreen(
                         val actor = actors[index]
                         actor?.let { currentActor ->
                             ActorItem(actor = currentActor, onClick = {
-                                // 1. Serialize the Actor to JSON
                                 val actorJsonString = Json.encodeToString(currentActor)
-                                // 2. URL-encode the JSON string to make it safe for a route
                                 val encodedActorJson = URLEncoder.encode(actorJsonString, "UTF-8")
-                                // 3. Navigate with the encoded JSON string
                                 navController.navigate("actor_detail/$encodedActorJson")
                             })
                         }

@@ -18,15 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,7 +48,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun FavoriteActorsScreen(
     viewModel: FavoriteActorsViewModel = hiltViewModel(),
-    onBackClick: () -> Unit,
     onActorClick: (Actor) -> Unit
 ) {
     val actors by viewModel.favoritesUiState.collectAsState()
@@ -73,15 +67,6 @@ fun FavoriteActorsScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        TopAppBar(
-            title = {
-                Text(
-                    stringResource(R.string.favorites_label),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-        )
-
         SearchBar(
             query = searchQuery,
             onQueryChange = { viewModel.onSearchQueryChange(it) }
@@ -126,10 +111,6 @@ fun FavoriteActorsScreen(
                         items(actors) { actor ->
                             FavoriteActorItem(actor = actor, onClick = { onActorClick(actor) })
                         }
-//                    items(actors.size, key = { it }) { index ->
-//                        val currentActor = actors[index]
-//                        FavoriteActorItem(actor = currentActor, onClick = { onActorClick(currentActor) })
-//                    }
                     }
                 }
             }
