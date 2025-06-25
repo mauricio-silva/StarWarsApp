@@ -26,8 +26,10 @@ import androidx.navigation.navArgument
 import com.example.tmdbapp.domain.model.Actor
 import com.example.tmdbapp.presentation.theme.TMDBAppTheme
 import com.example.tmdbapp.presentation.ui.screen.ActorDetailsScreen
+import com.example.tmdbapp.presentation.ui.screen.FavoriteActorsScreen
 import com.example.tmdbapp.presentation.ui.screen.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 
@@ -97,21 +99,27 @@ fun TMDBApp() {
             ) { backStackEntry ->
                 val actorJson = backStackEntry.arguments?.getString("actorJson")
                 if (actorJson != null) {
-                    // Decode the URL-encoded JSON string
                     val decodedActorJson = URLDecoder.decode(actorJson, "UTF-8")
-                    // Deserialize the JSON string back to an Actor object
                     val actor = Json.decodeFromString<Actor>(decodedActorJson)
                     ActorDetailsScreen(
                         actor = actor,
-                        onBack = { navController.popBackStack() },
-                        onToggleFavorite = { /* Handle favorite toggle */ },
-                        isFavorite = false
+                        onBack = { navController.popBackStack() }
                     )
                 } else {
                     // Handle error: actorJson is null, perhaps navigate back or show error
                 }
             }
-//            composable(Screen.Favorites.route) { FavoritesScreen(navController) }
+            composable(Screen.Favorites.route) {
+                FavoriteActorsScreen(
+                    onBackClick = {},
+                    onActorClick = { actor ->
+                        val actorJson = Json.encodeToString(actor)
+                        val encoded = java.net.URLEncoder.encode(actorJson, "UTF-8")
+                        navController.navigate("actor_detail/$encoded")
+                    }
+                )
+            }
+
         }
     }
 }

@@ -8,7 +8,8 @@ data class Actor(
     val name: String,
     val department: String,
     val imageUrl: String,
-    val details: ActorDetails
+    val details: ActorDetails,
+    val isFavorite: Boolean
 )
 
 @Serializable
@@ -16,7 +17,6 @@ data class ActorDetails(
     val name: String,
     val gender: String,
     val department: String,
-    val popularity: Double,
     val imageUrl: String,
     val knowFor: List<ActorMovie>
 )
@@ -26,6 +26,5 @@ data class ActorMovie(
     val title: String,
     val overview: String,
     val releaseDate: String?,
-    val popularity: Double,
     val posterPath: String?
 )

@@ -1,9 +1,9 @@
-package com.example.tmdbapp.data.paging
+package com.example.tmdbapp.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.tmdbapp.data.api.TMDbApi
-import com.example.tmdbapp.data.dto.ActorDto
+import com.example.tmdbapp.data.remote.api.TMDbApi
+import com.example.tmdbapp.data.remote.dto.ActorDto
 
 class ActorsPagingSource(
     private val api: TMDbApi

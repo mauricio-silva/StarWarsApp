@@ -9,7 +9,8 @@ interface HomeRepository {
 }
 
 interface FavoritesRepository {
+    fun getFavoriteActors(): Flow<List<Actor>>
     suspend fun saveFavorite(actor: Actor)
-    fun getFavorites(): Flow<List<Actor>>
-    suspend fun removeFavorite(id: Int)
+    suspend fun removeFavorite(actorId: Int)
+    suspend fun getFavoriteById(id: Int): Actor?
 }

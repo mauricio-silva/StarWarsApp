@@ -1,7 +1,10 @@
 package com.example.tmdbapp.data.module
 
-import com.example.tmdbapp.data.api.TMDbApi
+import com.example.tmdbapp.data.local.datasource.LocalDataSource
+import com.example.tmdbapp.data.remote.api.TMDbApi
+import com.example.tmdbapp.data.repository.FavoritesRepositoryImpl
 import com.example.tmdbapp.data.repository.HomeRepositoryImpl
+import com.example.tmdbapp.domain.repository.FavoritesRepository
 import com.example.tmdbapp.domain.repository.HomeRepository
 import dagger.Module
 import dagger.Provides
@@ -18,7 +21,13 @@ object RepositoryModule {
     @Singleton
     fun provideHomeRepository(
         api: TMDbApi,
+        localDataSource: LocalDataSource,
         dispatcherIO: CoroutineDispatcher
-    ): HomeRepository = HomeRepositoryImpl(api, dispatcherIO)
+    ): HomeRepository = HomeRepositoryImpl(api,localDataSource, dispatcherIO)
 
+    @Provides
+    @Singleton
+    fun provideFavoriteActorsRepository(
+        localDataSource: LocalDataSource
+    ): FavoritesRepository = FavoritesRepositoryImpl(localDataSource)
 }

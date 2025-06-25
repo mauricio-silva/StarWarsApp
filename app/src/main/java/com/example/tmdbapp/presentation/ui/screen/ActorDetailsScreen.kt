@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,9 +39,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.tmdbapp.domain.model.Actor
 import com.example.tmdbapp.domain.model.ActorMovie
+import com.example.tmdbapp.presentation.viewmodel.ActorDetailsViewModel
 import com.mdev.tmdbapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,8 +51,7 @@ import com.mdev.tmdbapp.R
 fun ActorDetailsScreen(
     actor: Actor,
     onBack: () -> Unit,
-    onToggleFavorite: () -> Unit,
-    isFavorite: Boolean,
+    viewModel: ActorDetailsViewModel = hiltViewModel(),
 ) {
     val details = actor.details
 
@@ -102,17 +104,25 @@ fun ActorDetailsScreen(
                     Text(details.name, style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
-                        onClick = onToggleFavorite,
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
+                        onClick = {
+                            if (actor.isFavorite) viewModel.unfavoriteActor(actor)
+                            else viewModel.favoriteActor(actor)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (actor.isFavorite) Color.Yellow else Color.LightGray
+                        )
                     ) {
-                        Text(stringResource(if (isFavorite) R.string.favorite_label else R.string.unfavorite_label))
+                        Text(stringResource(if (actor.isFavorite) R.string.favorite_label else R.string.unfavorite_label))
                     }
                 }
             }
 
             item {
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Text(stringResource(R.string.biography_label), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        stringResource(R.string.biography_label),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     InfoRow(stringResource(R.string.name_label), details.name)
                     InfoRow(stringResource(R.string.original_name_label), details.name)
@@ -131,8 +141,8 @@ fun ActorDetailsScreen(
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            items(details.knowFor.size) { index ->
-                KnownForCard(details.knowFor[index])
+            items(details.knowFor) { actorMovie ->
+                KnownForCard(actorMovie)
             }
         }
     }

@@ -1,7 +1,7 @@
 package com.example.tmdbapp.data.module
 
 import com.example.tmdbapp.core.Constants
-import com.example.tmdbapp.data.api.TMDbApi
+import com.example.tmdbapp.data.remote.api.TMDbApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

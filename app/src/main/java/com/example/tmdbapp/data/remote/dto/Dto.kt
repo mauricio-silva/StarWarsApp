@@ -1,4 +1,4 @@
-package com.example.tmdbapp.data.dto
+package com.example.tmdbapp.data.remote.dto
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName

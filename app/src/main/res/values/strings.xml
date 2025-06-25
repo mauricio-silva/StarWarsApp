@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">TMDBApp</string>
     <string name="retry">Retry</string>
+    <string name="clear_search_label">Clear Search</string>
     <string name="no_internet_connection_title">Network Error</string>
     <string name="no_internet_connection_message">Please check your internet connection.</string>
     <string name="not_found_error_title">Something went wrong</string>
-    <string name="not_found_error_message">Failed to load characters.</string>
+    <string name="not_found_error_message">Failed to load actors.</string>
     <string name="screen_actor_detail_title">Actor Details</string>
+    <string name="search_label">Search</string>
     <string name="name_label">Name</string>
     <string name="original_name_label">Original Name</string>
     <string name="gender_label">Gender</string>
@@ -14,4 +16,5 @@
     <string name="biography_label">Biography</string>
     <string name="favorite_label">Favorite</string>
     <string name="unfavorite_label">Unfavorite</string>
+    <string name="favorites_label">Favorites</string>
 </resources>
