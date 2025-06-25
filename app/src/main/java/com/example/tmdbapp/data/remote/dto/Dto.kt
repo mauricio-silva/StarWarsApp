@@ -18,7 +18,6 @@ data class ActorDto(
     val id: Int,
     val name: String,
     @SerialName("gender") val genderId: Int,
-    val popularity: Double,
     @SerialName("known_for_department") val knownForDepartment: String,
     @SerialName("profile_path") val profilePath: String? = "",
     @SerialName("known_for") val knownFor: List<ActorDetailsDto> = emptyList(),
@@ -28,7 +27,6 @@ data class ActorDto(
 data class ActorDetailsDto @OptIn(ExperimentalSerializationApi::class) constructor(
     @JsonNames("title", "name") val title: String,
     val overview: String,
-    val popularity: Double,
     @SerialName("poster_path") val posterPath: String? = "",
     @JsonNames("release_date", "first_air_date") val releaseDate: String?
 )
