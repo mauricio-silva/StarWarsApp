@@ -24,11 +24,9 @@ import com.example.tmdbapp.domain.model.Actor
 import com.example.tmdbapp.presentation.ui.components.CharacterAvatar
 import com.example.tmdbapp.presentation.ui.components.LoadingScreen
 import com.example.tmdbapp.presentation.ui.components.StateScreen
+import com.example.tmdbapp.presentation.ui.utils.toNavArg
 import com.example.tmdbapp.presentation.viewmodel.HomeViewModel
 import com.mdev.tmdbapp.R
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import java.net.URLEncoder
 
 @Composable
 fun HomeScreen(
@@ -63,9 +61,7 @@ fun HomeScreen(
                         val actor = actors[index]
                         actor?.let { currentActor ->
                             ActorItem(actor = currentActor, onClick = {
-                                val actorJsonString = Json.encodeToString(currentActor)
-                                val encodedActorJson = URLEncoder.encode(actorJsonString, "UTF-8")
-                                navController.navigate("actor_detail/$encodedActorJson")
+                                navController.navigate("actor_detail/${currentActor.toNavArg()}")
                             })
                         }
                     }
