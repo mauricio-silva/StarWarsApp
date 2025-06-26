@@ -4,8 +4,9 @@ import com.example.tmdbapp.data.local.datasource.LocalDataSource
 import com.example.tmdbapp.domain.model.Actor
 import com.example.tmdbapp.domain.repository.FavoritesRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class FavoritesRepositoryImpl(
+class FavoritesRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : FavoritesRepository {
 

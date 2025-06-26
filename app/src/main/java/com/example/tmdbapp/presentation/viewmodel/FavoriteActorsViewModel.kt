@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tmdbapp.domain.model.Actor
 import com.example.tmdbapp.domain.usecase.GetFavoriteActorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,16 +21,21 @@ class FavoriteActorsViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    private val _favoritesUiState = MutableStateFlow<List<Actor>>(emptyList())
-    val favoritesUiState: StateFlow<List<Actor>> = _favoritesUiState
+    private val _favoritesUiState = MutableStateFlow<FavoritesUiState>(FavoritesUiState.Loading)
+    val favoritesUiState: StateFlow<FavoritesUiState> = _favoritesUiState
 
-    private var allFavorites: List<Actor> = emptyList()
+    private var allFavorites = emptyList<Actor>()
 
     init {
         viewModelScope.launch {
+            delay(300) // Fake Loading
             getFavoriteActorsUseCase().collectLatest { actors ->
-                allFavorites = actors
-                applyFilter()
+                if (actors.isEmpty()) {
+                    _favoritesUiState.value = FavoritesUiState.NoFavoriteActorsFound
+                } else {
+                    allFavorites = actors.sortedBy { actor -> actor.name }
+                    _favoritesUiState.value = FavoritesUiState.Success(allFavorites)
+                }
             }
         }
     }
@@ -41,13 +47,24 @@ class FavoriteActorsViewModel @Inject constructor(
 
     private fun applyFilter() {
         val query = _searchQuery.value.lowercase()
-        val filtered = if (query.isBlank()) {
-            allFavorites
-        } else {
-            allFavorites.filter { it.name.lowercase().contains(query) }
+        val filteredActors = allFavorites.filter { it.name.lowercase().contains(query) }
+        when {
+            query.isEmpty() -> {
+                _favoritesUiState.value = FavoritesUiState.Success(allFavorites)
+            }
+            filteredActors.isEmpty() -> {
+                _favoritesUiState.value = FavoritesUiState.NoActorsSearchedFound
+            }
+            else -> {
+                _favoritesUiState.value = FavoritesUiState.Success(filteredActors)
+            }
         }
-
-        val sortedByActorsName = filtered.sortedBy { actor -> actor.name }
-        _favoritesUiState.value = sortedByActorsName
     }
+}
+
+sealed class FavoritesUiState {
+    data object Loading : FavoritesUiState()
+    data object NoFavoriteActorsFound : FavoritesUiState()
+    data object NoActorsSearchedFound: FavoritesUiState()
+    data class Success(val favorites: List<Actor>) : FavoritesUiState()
 }

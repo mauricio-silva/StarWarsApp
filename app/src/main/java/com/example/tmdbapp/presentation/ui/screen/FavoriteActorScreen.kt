@@ -21,13 +21,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,8 +37,8 @@ import com.example.tmdbapp.presentation.ui.components.LoadingScreen
 import com.example.tmdbapp.presentation.ui.components.SearchBar
 import com.example.tmdbapp.presentation.ui.components.StateScreen
 import com.example.tmdbapp.presentation.viewmodel.FavoriteActorsViewModel
+import com.example.tmdbapp.presentation.viewmodel.FavoritesUiState
 import com.mdev.tmdbapp.R
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,17 +46,8 @@ fun FavoriteActorsScreen(
     viewModel: FavoriteActorsViewModel = hiltViewModel(),
     onActorClick: (Actor) -> Unit
 ) {
-    val actors by viewModel.favoritesUiState.collectAsState()
+    val uiState by viewModel.favoritesUiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
-
-    val isLoading = remember { mutableStateOf(false) }
-    val isError = remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        isLoading.value = true
-        delay(400) // Simula carregamento, substitua por estado real se houver
-        isLoading.value = false
-    }
 
     Column(
         modifier = Modifier
@@ -72,12 +59,12 @@ fun FavoriteActorsScreen(
             onQueryChange = { viewModel.onSearchQueryChange(it) }
         )
 
-        when {
-            isLoading.value -> {
+        when(uiState) {
+            is FavoritesUiState.Loading -> {
                 LoadingScreen()
             }
 
-            isError.value -> {
+            is FavoritesUiState.NoActorsSearchedFound -> {
                 StateScreen(
                     title = stringResource(R.string.not_found_error_title),
                     message = stringResource(R.string.not_found_error_message),
@@ -87,19 +74,17 @@ fun FavoriteActorsScreen(
                 )
             }
 
-            actors.isEmpty() -> {
+            is FavoritesUiState.NoFavoriteActorsFound -> {
                 StateScreen(
                     title = stringResource(R.string.not_found_error_title),
                     message = stringResource(R.string.not_found_error_message),
-                    imageRes = R.drawable.not_found,
-                    buttonText = stringResource(R.string.clear_search_label),
-                    onClick = { viewModel.onSearchQueryChange("") }
+                    imageRes = R.drawable.not_found
                 )
             }
 
-            else -> {
+            is FavoritesUiState.Success -> {
                 AnimatedVisibility(
-                    visible = actors.isNotEmpty(),
+                    visible = uiState is FavoritesUiState.Success,
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
@@ -108,8 +93,11 @@ fun FavoriteActorsScreen(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(actors) { actor ->
-                            FavoriteActorItem(actor = actor, onClick = { onActorClick(actor) })
+                        val favorites = (uiState as? FavoritesUiState.Success)?.favorites
+                        favorites?.let { actors ->
+                            items(actors) { actor ->
+                                FavoriteActorItem(actor = actor, onClick = { onActorClick(actor) })
+                            }
                         }
                     }
                 }
